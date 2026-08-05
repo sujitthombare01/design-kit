@@ -1,0 +1,16 @@
+/* Unitless numeric scale on a 4px base grid, exposed in rem (1rem = 16px). */
+:root {
+  --design-kit-space-0: 0rem;
+  --design-kit-space-1: 0.25rem;
+  --design-kit-space-2: 0.5rem;
+  --design-kit-space-3: 0.75rem;
+  --design-kit-space-4: 1rem;
+  --design-kit-space-5: 1.25rem;
+  --design-kit-space-6: 1.5rem;
+  --design-kit-space-7: 2rem;
+  --design-kit-space-8: 2.5rem;
+  --design-kit-space-9: 3rem;
+  --design-kit-space-10: 4rem;
+  --design-kit-space-11: 5rem;
+  --design-kit-space-12: 6rem;
+}

@@ -1,0 +1,13 @@
+<button
+  [class]="buttonClasses()"
+  [type]="type()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading() ? 'true' : null"
+  (click)="handleClick($event)"
+>
+  @if (loading()) {
+    <span class="design-kit-atom-button-spinner" aria-hidden="true"></span>
+  }
+  <ng-content select="[slot=icon]" />
+  <ng-content />
+</button>

@@ -1,0 +1,175 @@
+import { ColorItem, ColorPalette, Meta, Typeset } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Design Tokens" />
+
+# Design Tokens
+
+The full `@design-kit/ux/css-variable` catalogue, rendered visually so token changes are reviewable at a glance. See [docs/09-css-tokens-library.md](../../../docs/09-css-tokens-library.md) for the source-of-truth catalogue and [docs/04-naming-conventions.md](../../../docs/04-naming-conventions.md) for naming rules.
+
+## Color
+
+<ColorPalette>
+  <ColorItem
+    title="Primary"
+    subtitle="--design-kit-color-primary-*"
+    colors={{
+      50: 'var(--design-kit-color-primary-50)',
+      100: 'var(--design-kit-color-primary-100)',
+      200: 'var(--design-kit-color-primary-200)',
+      300: 'var(--design-kit-color-primary-300)',
+      400: 'var(--design-kit-color-primary-400)',
+      500: 'var(--design-kit-color-primary-500)',
+      600: 'var(--design-kit-color-primary-600)',
+      700: 'var(--design-kit-color-primary-700)',
+      800: 'var(--design-kit-color-primary-800)',
+      900: 'var(--design-kit-color-primary-900)',
+    }}
+  />
+  <ColorItem
+    title="Danger"
+    subtitle="--design-kit-color-danger-*"
+    colors={{
+      50: 'var(--design-kit-color-danger-50)',
+      500: 'var(--design-kit-color-danger-500)',
+      900: 'var(--design-kit-color-danger-900)',
+    }}
+  />
+  <ColorItem
+    title="Success"
+    subtitle="--design-kit-color-success-*"
+    colors={{
+      50: 'var(--design-kit-color-success-50)',
+      500: 'var(--design-kit-color-success-500)',
+      900: 'var(--design-kit-color-success-900)',
+    }}
+  />
+  <ColorItem
+    title="Warning"
+    subtitle="--design-kit-color-warning-*"
+    colors={{
+      50: 'var(--design-kit-color-warning-50)',
+      500: 'var(--design-kit-color-warning-500)',
+      900: 'var(--design-kit-color-warning-900)',
+    }}
+  />
+  <ColorItem
+    title="Neutral"
+    subtitle="--design-kit-color-neutral-*"
+    colors={{
+      50: 'var(--design-kit-color-neutral-50)',
+      500: 'var(--design-kit-color-neutral-500)',
+      900: 'var(--design-kit-color-neutral-900)',
+    }}
+  />
+  <ColorItem
+    title="Semantic aliases"
+    subtitle="prefer these over raw scale steps"
+    colors={{
+      surface: 'var(--design-kit-color-surface)',
+      'surface-muted': 'var(--design-kit-color-surface-muted)',
+      border: 'var(--design-kit-color-border)',
+      text: 'var(--design-kit-color-text)',
+      'text-muted': 'var(--design-kit-color-text-muted)',
+      'focus-ring': 'var(--design-kit-color-focus-ring)',
+    }}
+  />
+</ColorPalette>
+
+## Spacing
+
+A 4px-base unitless scale, `--design-kit-space-0` through `--design-kit-space-12`.
+
+<div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+  {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((step) => (
+    <div key={step} style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <code style={{ width: '10rem' }}>--design-kit-space-{step}</code>
+      <div
+        style={{
+          height: '1rem',
+          width: `var(--design-kit-space-${step})`,
+          backgroundColor: 'var(--design-kit-color-primary-500)',
+        }}
+      />
+    </div>
+  ))}
+</div>
+
+## Typography
+
+<Typeset
+  fontSizes={['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map(
+    (step) => `var(--design-kit-font-size-${step})`,
+  )}
+  fontFamily="var(--design-kit-font-family-base)"
+  sampleText="Design Kit — the quick brown fox jumps over the lazy dog"
+/>
+
+## Radius
+
+<div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
+  {['none', 'sm', 'md', 'lg', 'full'].map((step) => (
+    <div key={step} style={{ textAlign: 'center' }}>
+      <div
+        style={{
+          width: '4rem',
+          height: '4rem',
+          backgroundColor: 'var(--design-kit-color-primary-500)',
+          borderRadius: `var(--design-kit-radius-${step})`,
+        }}
+      />
+      <code>--design-kit-radius-{step}</code>
+    </div>
+  ))}
+</div>
+
+## Shadow
+
+<div style={{ display: 'flex', gap: '2.5rem', flexWrap: 'wrap', padding: '1rem' }}>
+  {['sm', 'md', 'lg'].map((step) => (
+    <div key={step} style={{ textAlign: 'center' }}>
+      <div
+        style={{
+          width: '6rem',
+          height: '4rem',
+          backgroundColor: 'var(--design-kit-color-surface)',
+          boxShadow: `var(--design-kit-shadow-${step})`,
+          borderRadius: 'var(--design-kit-radius-md)',
+        }}
+      />
+      <code>--design-kit-shadow-{step}</code>
+    </div>
+  ))}
+  <div style={{ textAlign: 'center' }}>
+    <div
+      style={{
+        width: '6rem',
+        height: '4rem',
+        backgroundColor: 'var(--design-kit-color-surface)',
+        boxShadow: 'var(--design-kit-shadow-focus-ring)',
+        borderRadius: 'var(--design-kit-radius-md)',
+      }}
+    />
+    <code>--design-kit-shadow-focus-ring</code>
+  </div>
+</div>
+
+## Motion
+
+| Token | Value |
+|---|---|
+| `--design-kit-motion-duration-fast` | 100ms |
+| `--design-kit-motion-duration-base` | 200ms |
+| `--design-kit-motion-duration-slow` | 320ms |
+| `--design-kit-motion-ease-standard` | `cubic-bezier(0.4, 0, 0.2, 1)` |
+| `--design-kit-motion-ease-accelerate` | `cubic-bezier(0.4, 0, 1, 1)` |
+| `--design-kit-motion-ease-decelerate` | `cubic-bezier(0, 0, 0.2, 1)` |
+
+## Z-index
+
+| Token |
+|---|
+| `--design-kit-z-index-dropdown` |
+| `--design-kit-z-index-sticky` |
+| `--design-kit-z-index-overlay` |
+| `--design-kit-z-index-modal` |
+| `--design-kit-z-index-toast` |

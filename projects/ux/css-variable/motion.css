@@ -1,0 +1,8 @@
+:root {
+  --design-kit-motion-duration-fast: 100ms;
+  --design-kit-motion-duration-base: 200ms;
+  --design-kit-motion-duration-slow: 320ms;
+  --design-kit-motion-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --design-kit-motion-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --design-kit-motion-ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+}

@@ -1,0 +1,25 @@
+<label [for]="inputId" class="design-kit-atom-input-label">{{ label() }}</label>
+<div [class]="fieldClasses()">
+  <ng-content select="[slot=prefix]" />
+  <input
+    [id]="inputId"
+    class="design-kit-atom-input-control"
+    [type]="type()"
+    [attr.placeholder]="placeholder() || null"
+    [value]="value()"
+    [attr.readonly]="readonly() ? '' : null"
+    [attr.required]="required() ? '' : null"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-describedby]="describedBy()"
+    [disabled]="effectiveDisabled()"
+    (input)="handleInput($event)"
+    (blur)="handleBlur($event)"
+  />
+  <ng-content select="[slot=suffix]" />
+</div>
+@if (invalid() && errorText()) {
+  <p [id]="errorId" class="design-kit-atom-input-error" role="alert">{{ errorText() }}</p>
+} @else if (helperText()) {
+  <p [id]="helperId" class="design-kit-atom-input-helper">{{ helperText() }}</p>
+}

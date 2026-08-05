@@ -1,0 +1,19 @@
+:root {
+  --design-kit-font-family-base:
+    system-ui, -apple-system, 'Segoe UI', roboto, helvetica, arial, sans-serif;
+  --design-kit-font-family-mono:
+    ui-monospace, sfmono-regular, 'SF Mono', menlo, consolas, monospace;
+  --design-kit-font-size-xs: 0.75rem;
+  --design-kit-font-size-sm: 0.875rem;
+  --design-kit-font-size-md: 1rem;
+  --design-kit-font-size-lg: 1.125rem;
+  --design-kit-font-size-xl: 1.25rem;
+  --design-kit-font-size-2xl: 1.5rem;
+  --design-kit-font-weight-regular: 400;
+  --design-kit-font-weight-medium: 500;
+  --design-kit-font-weight-semibold: 600;
+  --design-kit-font-weight-bold: 700;
+  --design-kit-line-height-tight: 1.25;
+  --design-kit-line-height-normal: 1.5;
+  --design-kit-line-height-relaxed: 1.75;
+}

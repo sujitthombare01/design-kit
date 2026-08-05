@@ -1,0 +1,7 @@
+:root {
+  --design-kit-z-index-dropdown: 1000;
+  --design-kit-z-index-sticky: 1100;
+  --design-kit-z-index-overlay: 1200;
+  --design-kit-z-index-modal: 1300;
+  --design-kit-z-index-toast: 1400;
+}

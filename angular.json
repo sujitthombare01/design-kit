@@ -1,0 +1,67 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm"
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "atom": {
+      "projectType": "library",
+      "root": "projects/atom",
+      "sourceRoot": "projects/atom/src",
+      "prefix": "design-kit",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/atom/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/atom/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test",
+          "options": {
+            "tsConfig": "projects/atom/tsconfig.spec.json",
+            "runner": "vitest",
+            "browsers": ["ChromiumHeadless"],
+            "include": ["../button/**/*.spec.ts", "../input/**/*.spec.ts"],
+            "watch": false,
+            "coverageReporters": ["text", "html", "lcov"],
+            "coverageThresholds": {
+              "statements": 95,
+              "branches": 95,
+              "functions": 95,
+              "lines": 95
+            }
+          }
+        }
+      }
+    },
+    "ux": {
+      "projectType": "library",
+      "root": "projects/ux",
+      "sourceRoot": "projects/ux/src",
+      "prefix": "design-kit",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ux/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ux/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    }
+  }
+}

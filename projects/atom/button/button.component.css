@@ -1,0 +1,188 @@
+:host {
+  display: inline-block;
+}
+
+:host:has(.design-kit-atom-button--full-width) {
+  display: block;
+  width: 100%;
+}
+
+.design-kit-atom-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--design-kit-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--design-kit-radius-md);
+  font-family: var(--design-kit-font-family-base);
+  font-weight: var(--design-kit-font-weight-medium);
+  line-height: var(--design-kit-line-height-normal);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    border-color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    box-shadow var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard);
+}
+
+.design-kit-atom-button:focus-visible {
+  outline: none;
+  box-shadow: var(--design-kit-shadow-focus-ring);
+}
+
+.design-kit-atom-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.design-kit-atom-button--full-width {
+  width: 100%;
+}
+
+.design-kit-atom-button--icon-end {
+  flex-direction: row-reverse;
+}
+
+/* Sizes */
+
+.design-kit-atom-button--xs {
+  padding: var(--design-kit-space-1) var(--design-kit-space-3);
+  font-size: var(--design-kit-font-size-xs);
+}
+
+.design-kit-atom-button--sm {
+  padding: var(--design-kit-space-2) var(--design-kit-space-4);
+  font-size: var(--design-kit-font-size-sm);
+}
+
+.design-kit-atom-button--md {
+  padding: var(--design-kit-space-3) var(--design-kit-space-5);
+  font-size: var(--design-kit-font-size-md);
+}
+
+.design-kit-atom-button--lg {
+  padding: var(--design-kit-space-4) var(--design-kit-space-6);
+  font-size: var(--design-kit-font-size-lg);
+}
+
+.design-kit-atom-button--xl {
+  padding: var(--design-kit-space-5) var(--design-kit-space-7);
+  font-size: var(--design-kit-font-size-xl);
+}
+
+/* Variants */
+
+.design-kit-atom-button--primary {
+  background-color: var(--design-kit-color-primary-500);
+  color: var(--design-kit-color-text-inverse);
+}
+
+.design-kit-atom-button--primary:not(:disabled):hover {
+  background-color: var(--design-kit-color-primary-600);
+}
+
+.design-kit-atom-button--primary:not(:disabled):active {
+  background-color: var(--design-kit-color-primary-700);
+}
+
+.design-kit-atom-button--secondary {
+  background-color: var(--design-kit-color-neutral-700);
+  color: var(--design-kit-color-text-inverse);
+}
+
+.design-kit-atom-button--secondary:not(:disabled):hover {
+  background-color: var(--design-kit-color-neutral-800);
+}
+
+.design-kit-atom-button--secondary:not(:disabled):active {
+  background-color: var(--design-kit-color-neutral-900);
+}
+
+.design-kit-atom-button--outline {
+  background-color: transparent;
+  border-color: var(--design-kit-color-primary-500);
+  color: var(--design-kit-color-primary-500);
+}
+
+.design-kit-atom-button--outline:not(:disabled):hover {
+  background-color: var(--design-kit-color-primary-50);
+}
+
+.design-kit-atom-button--outline:not(:disabled):active {
+  background-color: var(--design-kit-color-primary-100);
+}
+
+.design-kit-atom-button--ghost {
+  background-color: transparent;
+  color: var(--design-kit-color-text);
+}
+
+.design-kit-atom-button--ghost:not(:disabled):hover {
+  background-color: var(--design-kit-color-surface-muted);
+}
+
+.design-kit-atom-button--ghost:not(:disabled):active {
+  background-color: var(--design-kit-color-neutral-200);
+}
+
+.design-kit-atom-button--link {
+  background-color: transparent;
+  color: var(--design-kit-color-primary-500);
+  text-decoration: none;
+}
+
+.design-kit-atom-button--link:not(:disabled):hover {
+  text-decoration: underline;
+}
+
+.design-kit-atom-button--link:not(:disabled):active {
+  color: var(--design-kit-color-primary-700);
+}
+
+.design-kit-atom-button--success {
+  /* success-500 only reaches a 3.3:1 contrast ratio against white text,
+     short of WCAG AA's 4.5:1 minimum for normal text; success-600 is the
+     lightest step in the scale that clears it. */
+  background-color: var(--design-kit-color-success-600);
+  color: var(--design-kit-color-text-inverse);
+}
+
+.design-kit-atom-button--success:not(:disabled):hover {
+  background-color: var(--design-kit-color-success-700);
+}
+
+.design-kit-atom-button--success:not(:disabled):active {
+  background-color: var(--design-kit-color-success-800);
+}
+
+.design-kit-atom-button--danger {
+  background-color: var(--design-kit-color-danger-500);
+  color: var(--design-kit-color-text-inverse);
+}
+
+.design-kit-atom-button--danger:not(:disabled):hover {
+  background-color: var(--design-kit-color-danger-600);
+}
+
+.design-kit-atom-button--danger:not(:disabled):active {
+  background-color: var(--design-kit-color-danger-700);
+}
+
+/* Loading spinner */
+
+.design-kit-atom-button-spinner {
+  width: var(--design-kit-space-4);
+  height: var(--design-kit-space-4);
+  border: 2px solid currentcolor;
+  border-top-color: transparent;
+  border-radius: var(--design-kit-radius-full);
+  animation: design-kit-atom-button-spin var(--design-kit-motion-duration-slow)
+    var(--design-kit-motion-ease-standard) infinite;
+}
+
+@keyframes design-kit-atom-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

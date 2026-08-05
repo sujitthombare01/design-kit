@@ -1,0 +1,7 @@
+:root {
+  --design-kit-shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 6%);
+  --design-kit-shadow-md: 0 4px 6px -1px rgb(15 23 42 / 10%), 0 2px 4px -2px rgb(15 23 42 / 6%);
+  --design-kit-shadow-lg:
+    0 10px 15px -3px rgb(15 23 42 / 10%), 0 4px 6px -4px rgb(15 23 42 / 5%);
+  --design-kit-shadow-focus-ring: 0 0 0 3px rgb(37 99 235 / 45%);
+}

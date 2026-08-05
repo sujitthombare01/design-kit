@@ -1,0 +1,7 @@
+:root {
+  --design-kit-radius-none: 0rem;
+  --design-kit-radius-sm: 0.25rem;
+  --design-kit-radius-md: 0.375rem;
+  --design-kit-radius-lg: 0.5rem;
+  --design-kit-radius-full: 9999px;
+}
