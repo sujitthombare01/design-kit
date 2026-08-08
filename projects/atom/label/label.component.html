@@ -1,0 +1,6 @@
+<label [class]="labelClasses()" [attr.for]="for()">
+  <ng-content />
+  @if (required()) {
+    <span class="design-kit-atom-label-required-indicator" aria-hidden="true">*</span>
+  }
+</label>

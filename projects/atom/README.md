@@ -10,10 +10,12 @@ npm install @design-kit/atom
 
 ## Entry points
 
-| Entry point | Import path | Description |
-|---|---|---|
-| Button | [`@design-kit/atom/button`](button/README.md) | Seven-variant, five-size call-to-action button |
-| Input | [`@design-kit/atom/input`](input/README.md) | Text input with full `ControlValueAccessor`/`Validator` Forms integration |
+| Entry point | Import path                                             | Description                                                                                |
+| ----------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Button      | [`@design-kit/atom/button`](button/README.md)           | Seven-variant, five-size call-to-action button                                             |
+| Input       | [`@design-kit/atom/input`](input/README.md)             | Text input with full `ControlValueAccessor`/`Validator` Forms integration                  |
+| Label       | [`@design-kit/atom/label`](label/README.md)             | Standalone form-field caption text; pairs with a control via for/id.                       |
+| Date Picker | [`@design-kit/atom/date-picker`](date-picker/README.md) | Native date/date-time input with full `ControlValueAccessor`/`Validator` Forms integration |
 
 ## Peer dependencies
 

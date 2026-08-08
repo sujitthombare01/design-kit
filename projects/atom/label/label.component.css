@@ -1,0 +1,39 @@
+:host {
+  display: inline-block;
+  font-family: var(--design-kit-font-family-base);
+}
+
+.design-kit-atom-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--design-kit-space-1);
+  font-weight: var(--design-kit-font-weight-medium);
+  line-height: var(--design-kit-line-height-normal);
+  color: var(--design-kit-color-text);
+  cursor: pointer;
+}
+
+.design-kit-atom-label--sm {
+  font-size: var(--design-kit-font-size-sm);
+}
+
+.design-kit-atom-label--md {
+  font-size: var(--design-kit-font-size-md);
+}
+
+.design-kit-atom-label--lg {
+  font-size: var(--design-kit-font-size-lg);
+}
+
+.design-kit-atom-label--error {
+  color: var(--design-kit-color-danger-600);
+}
+
+.design-kit-atom-label--disabled {
+  color: var(--design-kit-color-text-muted);
+  cursor: not-allowed;
+}
+
+.design-kit-atom-label-required-indicator {
+  color: var(--design-kit-color-danger-600);
+}

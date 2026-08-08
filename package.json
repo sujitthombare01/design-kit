@@ -16,7 +16,9 @@
     "build": "ng build atom && ng build ux && node scripts/patch-ux-exports.mjs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test-storybook": "test-storybook",
+    "generate:component": "python3 tools/generate-component/generate.py",
+    "remove:component": "python3 tools/generate-component/generate.py --remove"
   },
   "dependencies": {
     "@angular/common": "^21.2.0",

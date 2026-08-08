@@ -1,0 +1,71 @@
+import { ChangeDetectionStrategy, Component, computed, input{% if spec.output %}, output{% endif %} } from '@angular/core';
+{% if spec.sizes or spec.variants %}
+import type {
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';
+{% endif %}
+@Component({
+  selector: '{{ spec.selector }}',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './{{ spec.name }}.component.html',
+  styleUrl: './{{ spec.name }}.component.css',
+})
+export class {{ spec.full_class }} {
+{%- if spec.for_attribute %}
+  readonly for = input.required<string>();
+{%- endif %}
+{%- if spec.variants %}
+  readonly variant = input<{{ spec.class_name }}Variant>('{{ spec.default_variant }}');
+{%- endif %}
+{%- if spec.sizes %}
+  readonly size = input<{{ spec.class_name }}Size>('{{ spec.default_size }}');
+{%- endif %}
+  readonly disabled = input<boolean>(false);
+{%- if spec.required_indicator %}
+  readonly required = input<boolean>(false);
+{%- endif %}
+{%- for flag in spec.flags %}
+  readonly {{ flag.camel }} = input<boolean>(false);
+{%- endfor %}
+{%- if spec.output %}
+
+  readonly {{ spec.output.camel }} = output<{{ spec.output.payload }}>();
+{%- endif %}
+
+  protected readonly {{ spec.camel_name }}Classes = computed<string>(() => {
+    const classes = [
+      '{{ spec.base_css_class }}',
+{%- if spec.variants %}
+      `{{ spec.base_css_class }}--${this.variant()}`,
+{%- endif %}
+{%- if spec.sizes %}
+      `{{ spec.base_css_class }}--${this.size()}`,
+{%- endif %}
+    ];
+{%- if spec.kind == 'static' %}
+    if (this.disabled()) {
+      classes.push('{{ spec.base_css_class }}--disabled');
+    }
+{%- endif %}
+{%- for flag in spec.flags %}
+    if (this.{{ flag.camel }}()) {
+      classes.push('{{ spec.base_css_class }}--{{ flag.kebab }}');
+    }
+{%- endfor %}
+    return classes.join(' ');
+  });
+{%- if spec.output %}
+
+  protected handle{{ spec.output.pascal }}(event: {{ spec.output.payload }}): void {
+    if (this.disabled()) {
+      return;
+    }
+    this.{{ spec.output.camel }}.emit(event);
+  }
+{%- endif %}
+}

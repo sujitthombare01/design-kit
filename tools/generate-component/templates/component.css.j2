@@ -1,0 +1,101 @@
+{% if spec.kind == 'static' %}
+:host {
+  display: inline-block;
+  font-family: var(--design-kit-font-family-base);
+}
+
+.{{ spec.base_css_class }} {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--design-kit-space-1);
+  font-weight: var(--design-kit-font-weight-medium);
+  line-height: var(--design-kit-line-height-normal);
+  color: var(--design-kit-color-text);
+{%- if spec.for_attribute %}
+  cursor: pointer;
+{%- endif %}
+}
+
+.{{ spec.base_css_class }}--disabled {
+  color: var(--design-kit-color-text-muted);
+{%- if spec.for_attribute %}
+  cursor: not-allowed;
+{%- endif %}
+}
+{% for flag in spec.flags %}
+/* TODO(design): define the visual effect of the "{{ flag.kebab }}" flag. */
+.{{ spec.base_css_class }}--{{ flag.kebab }} {
+  font-weight: var(--design-kit-font-weight-semibold);
+}
+{% endfor %}
+{%- if spec.required_indicator %}
+.{{ spec.base_css_class }}-required-indicator {
+  color: var(--design-kit-color-danger-600);
+}
+{% endif %}
+{%- if spec.sizes %}
+/* Sizes */
+
+{{ size_css_blocks | join('\n\n') }}
+{% endif %}
+{%- if spec.variants %}
+/* Variants */
+
+{{ variant_css_blocks | join('\n\n') }}
+{% endif %}
+{% else %}
+:host {
+  display: inline-block;
+}
+
+.{{ spec.base_css_class }} {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--design-kit-space-2);
+  border: 1px solid transparent;
+  border-radius: var(--design-kit-radius-md);
+  font-family: var(--design-kit-font-family-base);
+  font-weight: var(--design-kit-font-weight-medium);
+  line-height: var(--design-kit-line-height-normal);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    border-color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    box-shadow var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard);
+}
+
+.{{ spec.base_css_class }}:focus-visible {
+  outline: none;
+  box-shadow: var(--design-kit-shadow-focus-ring);
+}
+{% if spec.element == 'button' %}
+.{{ spec.base_css_class }}:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+{% else %}
+.{{ spec.base_css_class }}[aria-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+{% endif %}
+{% for flag in spec.flags %}
+/* TODO(design): define the visual effect of the "{{ flag.kebab }}" flag. */
+.{{ spec.base_css_class }}--{{ flag.kebab }} {
+  border-color: var(--design-kit-color-border);
+}
+{% endfor %}
+{%- if spec.sizes %}
+/* Sizes */
+
+{{ size_css_blocks | join('\n\n') }}
+{% endif %}
+{%- if spec.variants %}
+/* Variants */
+
+{{ variant_css_blocks | join('\n\n') }}
+{% endif %}
+{% endif %}

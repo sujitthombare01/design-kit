@@ -1,0 +1,94 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--design-kit-space-1);
+  font-family: var(--design-kit-font-family-base);
+}
+
+.design-kit-atom-date-picker-label {
+  font-size: var(--design-kit-font-size-sm);
+  font-weight: var(--design-kit-font-weight-medium);
+  color: var(--design-kit-color-text);
+}
+
+.design-kit-atom-date-picker-field {
+  display: flex;
+  align-items: center;
+  gap: var(--design-kit-space-2);
+  background-color: var(--design-kit-color-surface);
+  border: 1px solid var(--design-kit-color-border);
+  border-radius: var(--design-kit-radius-md);
+  padding-inline: var(--design-kit-space-3);
+  transition:
+    border-color var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard),
+    box-shadow var(--design-kit-motion-duration-fast) var(--design-kit-motion-ease-standard);
+}
+
+.design-kit-atom-date-picker-field:focus-within {
+  border-color: var(--design-kit-color-primary-500);
+  box-shadow: var(--design-kit-shadow-focus-ring);
+}
+
+.design-kit-atom-date-picker-field--invalid {
+  border-color: var(--design-kit-color-danger-500);
+}
+
+.design-kit-atom-date-picker-field--disabled {
+  background-color: var(--design-kit-color-surface-muted);
+  opacity: 0.5;
+}
+
+.design-kit-atom-date-picker-field--readonly {
+  background-color: var(--design-kit-color-surface-muted);
+}
+
+.design-kit-atom-date-picker-field--sm {
+  padding-block: var(--design-kit-space-2);
+}
+
+.design-kit-atom-date-picker-field--md {
+  padding-block: var(--design-kit-space-3);
+}
+
+.design-kit-atom-date-picker-field--lg {
+  padding-block: var(--design-kit-space-4);
+}
+
+.design-kit-atom-date-picker-control {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: var(--design-kit-color-text);
+  font-family: inherit;
+  color-scheme: light dark;
+}
+
+.design-kit-atom-date-picker-control:disabled {
+  cursor: not-allowed;
+}
+
+.design-kit-atom-date-picker-field--sm .design-kit-atom-date-picker-control {
+  font-size: var(--design-kit-font-size-sm);
+}
+
+.design-kit-atom-date-picker-field--md .design-kit-atom-date-picker-control {
+  font-size: var(--design-kit-font-size-md);
+}
+
+.design-kit-atom-date-picker-field--lg .design-kit-atom-date-picker-control {
+  font-size: var(--design-kit-font-size-lg);
+}
+
+.design-kit-atom-date-picker-helper {
+  margin: 0;
+  font-size: var(--design-kit-font-size-xs);
+  color: var(--design-kit-color-text-muted);
+}
+
+.design-kit-atom-date-picker-error {
+  margin: 0;
+  font-size: var(--design-kit-font-size-xs);
+  color: var(--design-kit-color-danger-500);
+}

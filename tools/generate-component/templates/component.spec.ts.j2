@@ -1,0 +1,321 @@
+{% if spec.kind == 'static' %}
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { describe, expect, it } from 'vitest';
+
+import { {{ spec.full_class }} } from './{{ spec.name }}.component';
+{% if spec.sizes or spec.variants %}
+import type {
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';
+{% endif %}
+function query(root: HTMLElement, selector: string): Element {
+  const element = root.querySelector(selector);
+  if (!element) {
+    throw new Error(`Expected to find "${selector}" in the rendered fixture.`);
+  }
+  return element;
+}
+{% if spec.for_attribute %}
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [{{ spec.full_class }}],
+  template: `<{{ spec.selector }} for="demo-field">Projected text</{{ spec.selector }}>`,
+})
+// An Angular component class legitimately has no members when its template needs no bindings.
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+class ProjectedContentHostComponent {}
+{% else %}
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [{{ spec.full_class }}],
+  template: `<{{ spec.selector }}>Projected text</{{ spec.selector }}>`,
+})
+// An Angular component class legitimately has no members when its template needs no bindings.
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+class ProjectedContentHostComponent {}
+{% endif %}
+describe({{ spec.full_class }}.name, () => {
+  function createFixture(): {
+    component: {{ spec.full_class }};
+    host: HTMLElement;
+    fixture: ComponentFixture<{{ spec.full_class }}>;
+  } {
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({ imports: [{{ spec.full_class }}] });
+    const fixture = TestBed.createComponent({{ spec.full_class }});
+{%- if spec.for_attribute %}
+    fixture.componentRef.setInput('for', 'demo-field');
+{%- endif %}
+    fixture.detectChanges();
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    const host = nativeElement.querySelector('{{ spec.element }}');
+    if (!host) {
+      throw new Error('Expected the template to render a native <{{ spec.element }}>.');
+    }
+    return { component: fixture.componentInstance, host, fixture };
+  }
+
+  describe('rendering', () => {
+    it('renders with the base class', () => {
+      const { host } = createFixture();
+      expect(host.classList.contains('{{ spec.base_css_class }}')).toBe(true);
+    });
+
+    it('projects its content', () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({ imports: [ProjectedContentHostComponent] });
+      const fixture = TestBed.createComponent(ProjectedContentHostComponent);
+      fixture.detectChanges();
+      const host = query(fixture.nativeElement as HTMLElement, '{{ spec.element }}');
+      expect(host.textContent.trim()).toBe('Projected text');
+    });
+{%- if spec.for_attribute %}
+
+    it('reflects the "for" input onto the native attribute', () => {
+      const { host } = createFixture();
+      expect(host.getAttribute('for')).toBe('demo-field');
+    });
+{%- endif %}
+  });
+{% if spec.variants %}
+  describe('variants', () => {
+    const variants: readonly {{ spec.class_name }}Variant[] = [
+{%- for v in spec.variants %}
+      '{{ v }}',
+{%- endfor %}
+    ];
+
+    for (const variant of variants) {
+      it(`applies the "${variant}" variant class`, () => {
+        const { component, host, fixture } = createFixture();
+        fixture.componentRef.setInput('variant', variant);
+        fixture.detectChanges();
+        expect(host.classList.contains(`{{ spec.base_css_class }}--${variant}`)).toBe(true);
+        expect(component.variant()).toBe(variant);
+      });
+    }
+  });
+{% endif %}
+{% if spec.sizes %}
+  describe('sizes', () => {
+    const sizes: readonly {{ spec.class_name }}Size[] = [
+{%- for s in spec.sizes %}
+      '{{ s }}',
+{%- endfor %}
+    ];
+
+    for (const size of sizes) {
+      it(`applies the "${size}" size class`, () => {
+        const { host, fixture } = createFixture();
+        fixture.componentRef.setInput('size', size);
+        fixture.detectChanges();
+        expect(host.classList.contains(`{{ spec.base_css_class }}--${size}`)).toBe(true);
+      });
+    }
+  });
+{% endif %}
+  describe('states', () => {
+    it('applies the disabled class as a purely visual flag when disabled is set', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      expect(host.classList.contains('{{ spec.base_css_class }}--disabled')).toBe(true);
+    });
+{%- if spec.required_indicator %}
+
+    it('renders no required indicator by default', () => {
+      const { fixture } = createFixture();
+      const root = fixture.nativeElement as HTMLElement;
+      expect(root.querySelector('.{{ spec.base_css_class }}-required-indicator')).toBeNull();
+    });
+
+    it('renders an aria-hidden required indicator when required is true', () => {
+      const { fixture } = createFixture();
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
+      const root = fixture.nativeElement as HTMLElement;
+      const indicator = query(root, '.{{ spec.base_css_class }}-required-indicator');
+      expect(indicator.getAttribute('aria-hidden')).toBe('true');
+    });
+{%- endif %}
+{%- for flag in spec.flags %}
+
+    it('applies the {{ spec.base_css_class }}--{{ flag.kebab }} class when {{ flag.camel }} is set', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('{{ flag.camel }}', true);
+      fixture.detectChanges();
+      expect(host.classList.contains('{{ spec.base_css_class }}--{{ flag.kebab }}')).toBe(true);
+    });
+{%- endfor %}
+  });
+  describe('OnPush change detection', () => {
+    it('updates the view when a signal input changes, without manual double detectChanges', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      expect(host.classList.contains('{{ spec.base_css_class }}--disabled')).toBe(true);
+    });
+  });
+});
+{% else %}
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { describe, expect, it } from 'vitest';
+
+import { {{ spec.full_class }} } from './{{ spec.name }}.component';
+{% if spec.sizes or spec.variants %}
+import type {
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';
+{% endif %}
+describe({{ spec.full_class }}.name, () => {
+  function createFixture(): {
+    component: {{ spec.full_class }};
+    host: HTMLElement;
+    fixture: ComponentFixture<{{ spec.full_class }}>;
+  } {
+    TestBed.configureTestingModule({ imports: [{{ spec.full_class }}] });
+    const fixture = TestBed.createComponent({{ spec.full_class }});
+    fixture.detectChanges();
+    const nativeElement = fixture.nativeElement as HTMLElement;
+    const host = nativeElement.querySelector('{{ spec.element }}');
+    if (!host) {
+      throw new Error('Expected the template to render a native <{{ spec.element }}>.');
+    }
+    return { component: fixture.componentInstance, host, fixture };
+  }
+
+  describe('rendering', () => {
+    it('renders with the base class', () => {
+      const { host } = createFixture();
+      expect(host.classList.contains('{{ spec.base_css_class }}')).toBe(true);
+    });
+  });
+{% if spec.variants %}
+  describe('variants', () => {
+    const variants: readonly {{ spec.class_name }}Variant[] = [
+{%- for v in spec.variants %}
+      '{{ v }}',
+{%- endfor %}
+    ];
+
+    for (const variant of variants) {
+      it(`applies the "${variant}" variant class`, () => {
+        const { component, host, fixture } = createFixture();
+        fixture.componentRef.setInput('variant', variant);
+        fixture.detectChanges();
+        expect(host.classList.contains(`{{ spec.base_css_class }}--${variant}`)).toBe(true);
+        expect(component.variant()).toBe(variant);
+      });
+    }
+  });
+{% endif %}
+{% if spec.sizes %}
+  describe('sizes', () => {
+    const sizes: readonly {{ spec.class_name }}Size[] = [
+{%- for s in spec.sizes %}
+      '{{ s }}',
+{%- endfor %}
+    ];
+
+    for (const size of sizes) {
+      it(`applies the "${size}" size class`, () => {
+        const { host, fixture } = createFixture();
+        fixture.componentRef.setInput('size', size);
+        fixture.detectChanges();
+        expect(host.classList.contains(`{{ spec.base_css_class }}--${size}`)).toBe(true);
+      });
+    }
+  });
+{% endif %}
+  describe('states', () => {
+{%- if spec.element == 'button' %}
+    it('reflects disabled as a native attribute', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      expect((host as HTMLButtonElement).disabled).toBe(true);
+    });
+{%- else %}
+    it('reflects disabled via aria-disabled', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      expect(host.getAttribute('aria-disabled')).toBe('true');
+    });
+{%- endif %}
+{% for flag in spec.flags %}
+    it('applies the {{ spec.base_css_class }}--{{ flag.kebab }} class when {{ flag.camel }} is set', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('{{ flag.camel }}', true);
+      fixture.detectChanges();
+      expect(host.classList.contains('{{ spec.base_css_class }}--{{ flag.kebab }}')).toBe(true);
+    });
+{% endfor %}
+  });
+{% if spec.output %}
+  describe('events', () => {
+    it('emits {{ spec.output.camel }} on a native click', () => {
+      const { component, host } = createFixture();
+      let emitted: {{ spec.output.payload }} | undefined;
+      component.{{ spec.output.camel }}.subscribe((event: {{ spec.output.payload }}) => {
+        emitted = event;
+      });
+      host.click();
+      expect(emitted).toBeInstanceOf(MouseEvent);
+    });
+
+    it('does not emit {{ spec.output.camel }} when disabled', () => {
+      const { component, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+      let emitted = false;
+      component.{{ spec.output.camel }}.subscribe(() => {
+        emitted = true;
+      });
+      // Bypass native click gating (relevant for a <button> host) to assert
+      // the component's own interactive guard, not just DOM-level gating.
+      fixture.debugElement
+        .query(By.css('{{ spec.element }}'))
+        .triggerEventHandler('click', new MouseEvent('click'));
+      expect(emitted).toBe(false);
+    });
+  });
+{% endif %}
+{% if spec.element == 'button' %}
+  describe('accessibility', () => {
+    it('is reachable via Tab and activates through native button semantics', () => {
+      const { host } = createFixture();
+      const button = host as HTMLButtonElement;
+      button.focus();
+      expect(document.activeElement).toBe(button);
+    });
+  });
+{% endif %}
+  describe('OnPush change detection', () => {
+    it('updates the view when a signal input changes, without manual double detectChanges', () => {
+      const { host, fixture } = createFixture();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+{%- if spec.element == 'button' %}
+      expect((host as HTMLButtonElement).disabled).toBe(true);
+{%- else %}
+      expect(host.getAttribute('aria-disabled')).toBe('true');
+{%- endif %}
+    });
+  });
+});
+{% endif %}

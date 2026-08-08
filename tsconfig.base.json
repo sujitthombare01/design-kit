@@ -23,7 +23,9 @@
     "paths": {
       "@design-kit/atom/button": ["./projects/atom/button/public-api.ts"],
       "@design-kit/atom/input": ["./projects/atom/input/public-api.ts"],
-      "@design-kit/ux/css-variable": ["./projects/ux/css-variable/public-api.ts"]
+      "@design-kit/ux/css-variable": ["./projects/ux/css-variable/public-api.ts"],
+      "@design-kit/atom/label": ["./projects/atom/label/public-api.ts"],
+      "@design-kit/atom/date-picker": ["./projects/atom/date-picker/public-api.ts"]
     }
   },
   "angularCompilerOptions": {

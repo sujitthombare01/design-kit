@@ -2,7 +2,7 @@
 
 ## What this is
 
-`design-kit` is an enterprise-grade Angular component library delivered as a set of independently importable, tree-shakable packages under the `@design-kit` npm scope. It follows Atomic Design principles, starting with **Atoms** (Button, Input) and a shared **CSS variable / design-token layer**, with Molecules, Organisms and Templates planned as future phases (see [[16-future-roadmap]]).
+`design-kit` is an enterprise-grade Angular component library delivered as a set of independently importable, tree-shakable packages under the `@design-kit` npm scope. It follows Atomic Design principles, starting with **Atoms** (Button, Input, Label, Date Picker) and a shared **CSS variable / design-token layer**, with Molecules, Organisms and Templates planned as future phases (see [[16-future-roadmap]]).
 
 The library is built for consumption by multiple downstream Angular applications that need a consistent, accessible, themeable UI kit without pulling in components they don't use.
 

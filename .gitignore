@@ -55,3 +55,8 @@ debug-storybook.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Python (tools/generate-component)
+tools/generate-component/.venv
+__pycache__/
+*.pyc

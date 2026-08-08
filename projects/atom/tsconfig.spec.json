@@ -4,14 +4,14 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
-    "types": [
-      "vitest/globals"
-    ]
+    "types": ["vitest/globals"]
   },
   "include": [
     "src/**/*.d.ts",
     "src/**/*.spec.ts",
     "button/**/*.spec.ts",
-    "input/**/*.spec.ts"
+    "input/**/*.spec.ts",
+    "label/**/*.spec.ts",
+    "date-picker/**/*.spec.ts"
   ]
 }

@@ -1,0 +1,124 @@
+# {{ spec.class_name }}
+
+{{ spec.description }}
+
+## Import
+
+```ts
+import { {{ spec.full_class }} } from '{{ spec.import_path }}';
+```
+
+## Setup prerequisite
+
+`@design-kit/ux/css-variable` must be imported once, globally, by the consuming application before this component is used. Without it, {{ spec.class_name }} renders with no color, spacing, radius, shadow, or motion — every visual value on this component is a `var(--design-kit-*)` reference and resolves to nothing until the token stylesheet is loaded. See [`@design-kit/ux/css-variable`](../../ux/css-variable/README.md).
+
+## Selector
+
+`{{ spec.selector }}`
+
+## Usage example
+
+{% if spec.kind == 'static' -%}
+```html
+<{{ spec.selector }}{% if spec.for_attribute %} for="demo-field"{% endif %}{% if spec.variants %} variant="{{ spec.default_variant }}"{% endif %}{% if spec.sizes %} size="{{ spec.default_size }}"{% endif %}>{{ spec.class_name }} text</{{ spec.selector }}>
+{%- if spec.for_attribute %}
+<input id="demo-field" type="text" />
+{%- endif %}
+```
+{% else -%}
+```html
+<{{ spec.selector }}{% if spec.variants %} variant="{{ spec.default_variant }}"{% endif %}{% if spec.sizes %} size="{{ spec.default_size }}"{% endif %}{% if spec.output %} ({{ spec.output.camel }})="on{{ spec.output.pascal }}()"{% endif %}>{{ spec.class_name }}</{{ spec.selector }}>
+```
+{% endif %}
+## API reference
+
+### Inputs
+
+| Input | Type | Default | Notes |
+|---|---|---|---|
+{%- if spec.for_attribute %}
+| `for` | `string` | *(required)* | The `id` of the associated form control |
+{%- endif %}
+{%- if spec.variants %}
+| `variant` | `{{ spec.class_name }}Variant` | `'{{ spec.default_variant }}'` | |
+{%- endif %}
+{%- if spec.sizes %}
+| `size` | `{{ spec.class_name }}Size` | `'{{ spec.default_size }}'` | |
+{%- endif %}
+{%- if spec.kind == 'static' %}
+| `disabled` | `boolean` | `false` | A purely visual, presentational flag — `<{{ spec.element }}>` has no native disabled semantics of its own |
+{%- else %}
+| `disabled` | `boolean` | `false` | Reflected to {% if spec.element == 'button' %}the native `disabled` attribute{% else %}`aria-disabled`{% endif %} |
+{%- endif %}
+{%- if spec.required_indicator %}
+| `required` | `boolean` | `false` | Renders a visual asterisk only — see Accessibility below |
+{%- endif %}
+{%- for flag in spec.flags %}
+| `{{ flag.camel }}` | `boolean` | `false` | Adds the `{{ spec.base_css_class }}--{{ flag.kebab }}` class — TODO(design): document its visual effect |
+{%- endfor %}
+
+### Outputs
+
+{% if spec.output -%}
+| Output | Payload | Fires |
+|---|---|---|
+| `{{ spec.output.camel }}` | `{{ spec.output.payload }}` | On native click, only when not `disabled` |
+{% else -%}
+_None._{% if spec.kind == 'static' %} This is a plain-text atom with no interaction of its own.{% endif %}
+{% endif %}
+{%- if spec.icon_slot %}
+### Content-projection slots
+
+| Slot | Purpose |
+|---|---|
+| `[slot=icon]` | An icon. This component owns no icon input — it is icon-library-agnostic. |
+| *(default)* | The component's content. |
+{% endif %}
+{% if spec.variants %}
+## Variants
+
+| Variant | Intent |
+|---|---|
+{%- for v in spec.variants %}
+| `{{ v }}` | TODO(design): describe when to use "{{ v }}". |
+{%- endfor %}
+{% endif %}
+{% if spec.sizes %}
+## Sizes
+
+{% if spec.kind == 'static' -%}
+`{{ sizes_union }}` — `{{ spec.default_size }}` is the default. Sizes scale `font-size` only — there is no padding, since a plain caption isn't a hit target.
+{% else -%}
+`{{ sizes_union }}` — `{{ spec.default_size }}` is the default.
+{% endif %}
+{% endif %}
+## Accessibility
+
+{%- if spec.kind == 'static' %}
+- Renders a real `<{{ spec.element }}>` — never a styled element pretending to be one.
+{%- if spec.for_attribute %}
+- The `for` input renders a real `<label for="...">` association with the given control `id`. Clicking the label focuses the associated control natively — no Angular event handling is involved.
+{%- endif %}
+{%- if spec.required_indicator %}
+- The `required` input renders a visual asterisk marked `aria-hidden="true"`. **It does not make the associated field accessibly required on its own** — that announcement must come from the associated control's own `required`/`aria-required` attribute. Always set `required` on both this component and its associated control together.
+{%- endif %}
+- The `disabled` input is visual only, for the same reason: assistive tech takes its cues from the associated control's real `disabled` state, not this component's styling.
+{%- else %}
+{%- if spec.element == 'button' %}
+- Renders a real `<button>` — never a styled `<div>`/`<a>`.
+- The native `disabled` attribute is always used — `aria-disabled` is never a substitute.
+{%- else %}
+- Renders a `<{{ spec.element }}>`. `disabled` is reflected as `aria-disabled`, since `<{{ spec.element }}>` has no native disabled semantics — this does **not** block pointer/keyboard interaction on its own; the component's own `disabled()` guard is what suppresses `{{ spec.output.camel if spec.output else 'events' }}`.
+{%- if spec.output %}
+- **Keyboard access is not wired up by default** for a non-button host. If this component must be operable via keyboard, add `role="button"`, `tabindex="0"`, and a `(keydown.enter)`/`(keydown.space)` handler (see the `TODO(a11y)` comment in the component template), or regenerate with `--element button`.
+{%- endif %}
+{%- endif %}
+{%- endif %}
+
+## Theming
+
+Every color, spacing, {% if spec.kind == 'static' %}typography, and font-weight{% else %}radius, shadow, and motion{% endif %} value on this component is a `var(--design-kit-*)` reference — there are no hardcoded visual values. Re-theme it entirely by re-declaring tokens at `:root` or a `[data-theme]` scope. See [`@design-kit/ux/css-variable`](../../ux/css-variable/README.md) for the full token catalogue.
+
+## Changelog
+
+- `0.0.1` — initial release (generated via `tools/generate-component`).

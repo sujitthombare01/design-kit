@@ -4,7 +4,7 @@
 
 ## What this project is
 
-An Angular 21 component library, published under the `@design-kit` npm scope, built with standalone components, `OnPush` change detection, strict TypeScript, strict linting, Vitest for unit testing, and Storybook for documentation and visual/accessibility QA. Current scope is **Atoms** (Button, Input) plus a shared **CSS design-token layer**. See [[docs/01-project-overview]] for the full picture.
+An Angular 21 component library, published under the `@design-kit` npm scope, built with standalone components, `OnPush` change detection, strict TypeScript, strict linting, Vitest for unit testing, and Storybook for documentation and visual/accessibility QA. Current scope is **Atoms** (Button, Input, Label, Date Picker) plus a shared **CSS design-token layer**. See [[docs/01-project-overview]] for the full picture.
 
 ## Imports
 
@@ -33,7 +33,7 @@ The following documents are part of this specification and MUST be treated as on
 
 - npm scope: `@design-kit`
 - Level packages: `@design-kit/atom`, `@design-kit/ux` (future: `@design-kit/molecule`, `@design-kit/organism`, `@design-kit/template`)
-- Component import paths (secondary entry points, independently tree-shakable — "single importable"): `@design-kit/atom/button`, `@design-kit/atom/input`
+- Component import paths (secondary entry points, independently tree-shakable — "single importable"): `@design-kit/atom/button`, `@design-kit/atom/input`, `@design-kit/atom/label`, `@design-kit/atom/date-picker`
 - Shared design tokens (one common location for every CSS variable): `@design-kit/ux/css-variable`
 - Selectors: `design-kit-atom-button`, `design-kit-atom-input`
 - Component classes: `DesignKitAtomButtonComponent`, `DesignKitAtomInputComponent`
@@ -53,4 +53,4 @@ The following documents are part of this specification and MUST be treated as on
 
 ## Scope discipline
 
-Current implementation scope is **Atoms (Button, Input) + the CSS token layer only**. Do not build Molecules, Organisms, Templates, JS/TS token exports, theming packages, or CI/release automation beyond what [[docs/15-build-quality]] describes — those are intentionally deferred and catalogued in [[docs/16-future-roadmap]] so the architecture stays anticipatory without being prematurely built.
+Current implementation scope is **Atoms (Button, Input, Label, Date Picker) + the CSS token layer only**. Do not build Molecules, Organisms, Templates, JS/TS token exports, theming packages, or CI/release automation beyond what [[docs/15-build-quality]] describes — those are intentionally deferred and catalogued in [[docs/16-future-roadmap]] so the architecture stays anticipatory without being prematurely built.

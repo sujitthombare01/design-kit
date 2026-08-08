@@ -1,0 +1,36 @@
+<{{ spec.element }}
+  [class]="{{ spec.camel_name }}Classes()"
+{%- if spec.kind == 'static' %}
+{%- if spec.for_attribute %}
+  [attr.for]="for()"
+{%- endif %}
+{%- else %}
+{%- if spec.element == 'button' %}
+  type="button"
+  [disabled]="disabled()"
+{%- else %}
+  [attr.aria-disabled]="disabled() ? 'true' : null"
+{%- endif %}
+{%- if spec.output %}
+  (click)="handle{{ spec.output.pascal }}($event)"
+{%- endif %}
+{%- endif %}
+>
+{%- if spec.kind != 'static' and spec.output and spec.element != 'button' %}
+  <!--
+    TODO(a11y): "{{ spec.element }}" is not natively keyboard-interactive.
+    If this component must be operable via keyboard, add role="button",
+    tabindex="0", and a (keydown.enter)/(keydown.space) handler, or
+    regenerate this component with --element button.
+  -->
+{%- endif %}
+{%- if spec.icon_slot %}
+  <ng-content select="[slot=icon]" />
+{%- endif %}
+  <ng-content />
+{%- if spec.required_indicator %}
+  @if (required()) {
+    <span class="{{ spec.base_css_class }}-required-indicator" aria-hidden="true">*</span>
+  }
+{%- endif %}
+</{{ spec.element }}>

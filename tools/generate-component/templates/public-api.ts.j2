@@ -1,0 +1,13 @@
+/*
+ * Public API Surface of {{ spec.import_path }}
+ */
+export { {{ spec.full_class }} } from './{{ spec.name }}.component';
+export type {
+  {{ spec.class_name }}Props,
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';

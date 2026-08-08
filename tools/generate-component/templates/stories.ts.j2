@@ -1,0 +1,286 @@
+{% if spec.kind == 'static' %}
+import type { Meta, StoryObj } from '@storybook/angular';
+{% if spec.for_attribute %}
+import { expect, userEvent, within } from 'storybook/test';
+{% endif %}
+
+import { {{ spec.full_class }} } from './{{ spec.name }}.component';
+{% if spec.sizes or spec.variants %}
+import type {
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';
+{% endif %}
+{%- if spec.sizes %}
+const sizes: readonly {{ spec.class_name }}Size[] = [
+{%- for s in spec.sizes %}
+  '{{ s }}',
+{%- endfor %}
+];
+{% endif %}
+{%- if spec.variants %}
+const variants: readonly {{ spec.class_name }}Variant[] = [
+{%- for v in spec.variants %}
+  '{{ v }}',
+{%- endfor %}
+];
+{% endif %}
+const meta: Meta<{{ spec.full_class }}> = {
+  title: 'Atoms/{{ spec.class_name }}',
+  component: {{ spec.full_class }},
+  tags: ['autodocs'],
+  argTypes: {
+{%- if spec.for_attribute %}
+    for: { control: 'text' },
+{%- endif %}
+{%- if spec.sizes %}
+    size: { control: 'select', options: sizes },
+{%- endif %}
+{%- if spec.variants %}
+    variant: { control: 'select', options: variants },
+{%- endif %}
+    disabled: { control: 'boolean' },
+{%- if spec.required_indicator %}
+    required: { control: 'boolean' },
+{%- endif %}
+{%- for flag in spec.flags %}
+    {{ flag.camel }}: { control: 'boolean' },
+{%- endfor %}
+  },
+  args: {
+{%- if spec.for_attribute %}
+    for: 'demo-field',
+{%- endif %}
+{%- if spec.sizes %}
+    size: '{{ spec.default_size }}',
+{%- endif %}
+{%- if spec.variants %}
+    variant: '{{ spec.default_variant }}',
+{%- endif %}
+    disabled: false,
+{%- if spec.required_indicator %}
+    required: false,
+{%- endif %}
+{%- for flag in spec.flags %}
+    {{ flag.camel }}: false,
+{%- endfor %}
+  },
+  render: (args) => ({
+    props: args,
+    template: `<{{ spec.selector }}
+{%- if spec.for_attribute %}
+      [for]="for"
+{%- endif %}
+{%- if spec.sizes %}
+      [size]="size"
+{%- endif %}
+{%- if spec.variants %}
+      [variant]="variant"
+{%- endif %}
+      [disabled]="disabled"
+{%- if spec.required_indicator %}
+      [required]="required"
+{%- endif %}
+{%- for flag in spec.flags %}
+      [{{ flag.camel }}]="{{ flag.camel }}"
+{%- endfor %}
+    >{{ spec.class_name }} text</{{ spec.selector }}>`,
+  }),
+};
+
+export default meta;
+type Story = StoryObj<{{ spec.full_class }}>;
+
+export const Default: Story = {};
+{% for s in spec.sizes %}
+export const {{ s | to_pascal }}Size: Story = { args: { size: '{{ s }}' } };
+{%- endfor %}
+{% for v in spec.variants %}
+export const {{ v | to_pascal }}Variant: Story = { args: { variant: '{{ v }}' } };
+{%- endfor %}
+
+export const Disabled: Story = { args: { disabled: true } };
+{% if spec.required_indicator %}
+export const Required: Story = { args: { required: true } };
+{% endif %}
+{%- for flag in spec.flags %}
+export const {{ flag.pascal }}: Story = { args: { {{ flag.camel }}: true } };
+{%- endfor %}
+{% if spec.for_attribute %}
+export const PairedWithControl: Story = {
+  name: 'Paired with a form control',
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 4px; max-width: 240px;">
+        <{{ spec.selector }} for="paired-demo-input">{{ spec.class_name }} text</{{ spec.selector }}>
+        <input id="paired-demo-input" type="text" />
+      </div>
+    `,
+  }),
+  play: async ({ canvasElement }): Promise<void> => {
+    const canvas = within(canvasElement);
+    const text = canvas.getByText('{{ spec.class_name }} text');
+    await userEvent.click(text);
+    const control = canvas.getByRole('textbox');
+    await expect(control).toHaveFocus();
+  },
+};
+{% endif %}
+{%- if spec.variants and spec.sizes %}
+export const AllSizesAllVariants: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        ${sizes
+          .map(
+            (size) => `
+          <div style="display: flex; align-items: baseline; gap: 1rem;">
+            ${variants
+              .map(
+                (variant) =>
+                  `<{{ spec.selector }} size="${size}" variant="${variant}">${size} / ${variant}</{{ spec.selector }}>`,
+              )
+              .join('')}
+          </div>`,
+          )
+          .join('')}
+      </div>
+    `,
+  }),
+};
+{% endif %}
+{% else %}
+import type { Meta, StoryObj } from '@storybook/angular';
+{% if spec.output and spec.element == 'button' %}
+import { expect, userEvent, within } from 'storybook/test';
+{% endif %}
+
+import { {{ spec.full_class }} } from './{{ spec.name }}.component';
+{% if spec.sizes or spec.variants %}
+import type {
+{%- if spec.sizes %}
+  {{ spec.class_name }}Size,
+{%- endif %}
+{%- if spec.variants %}
+  {{ spec.class_name }}Variant,
+{%- endif %}
+} from './{{ spec.name }}.types';
+{% endif %}
+{%- if spec.variants %}
+const variants: readonly {{ spec.class_name }}Variant[] = [
+{%- for v in spec.variants %}
+  '{{ v }}',
+{%- endfor %}
+];
+{% endif %}
+{%- if spec.sizes %}
+const sizes: readonly {{ spec.class_name }}Size[] = [
+{%- for s in spec.sizes %}
+  '{{ s }}',
+{%- endfor %}
+];
+{% endif %}
+const meta: Meta<{{ spec.full_class }}> = {
+  title: 'Atoms/{{ spec.class_name }}',
+  component: {{ spec.full_class }},
+  tags: ['autodocs'],
+  argTypes: {
+{%- if spec.variants %}
+    variant: { control: 'select', options: variants },
+{%- endif %}
+{%- if spec.sizes %}
+    size: { control: 'select', options: sizes },
+{%- endif %}
+    disabled: { control: 'boolean' },
+{%- for flag in spec.flags %}
+    {{ flag.camel }}: { control: 'boolean' },
+{%- endfor %}
+{%- if spec.output %}
+    {{ spec.output.camel }}: { action: '{{ spec.output.camel }}' },
+{%- endif %}
+  },
+  args: {
+{%- if spec.variants %}
+    variant: '{{ spec.default_variant }}',
+{%- endif %}
+{%- if spec.sizes %}
+    size: '{{ spec.default_size }}',
+{%- endif %}
+    disabled: false,
+{%- for flag in spec.flags %}
+    {{ flag.camel }}: false,
+{%- endfor %}
+  },
+  render: (args) => ({
+    props: args,
+    template: `<{{ spec.selector }}
+{%- if spec.variants %}
+      [variant]="variant"
+{%- endif %}
+{%- if spec.sizes %}
+      [size]="size"
+{%- endif %}
+      [disabled]="disabled"
+{%- for flag in spec.flags %}
+      [{{ flag.camel }}]="{{ flag.camel }}"
+{%- endfor %}
+{%- if spec.output %}
+      ({{ spec.output.camel }})="{{ spec.output.camel }}($event)"
+{%- endif %}
+    >{{ spec.class_name }}</{{ spec.selector }}>`,
+  }),
+};
+
+export default meta;
+type Story = StoryObj<{{ spec.full_class }}>;
+
+export const Default: Story = {};
+{% for v in spec.variants %}
+export const {{ v | to_pascal }}Variant: Story = { args: { variant: '{{ v }}' } };
+{%- endfor %}
+{% for s in spec.sizes %}
+export const {{ s | to_pascal }}Size: Story = { args: { size: '{{ s }}' } };
+{%- endfor %}
+
+export const Disabled: Story = { args: { disabled: true } };
+{% for flag in spec.flags %}
+export const {{ flag.pascal }}: Story = { args: { {{ flag.camel }}: true } };
+{%- endfor %}
+{% if spec.output and spec.element == 'button' %}
+export const Focus: Story = {
+  play: async ({ canvasElement }): Promise<void> => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole('button');
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+  },
+};
+{% endif %}
+{%- if spec.variants and spec.sizes %}
+export const AllVariantsAllSizes: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        ${variants
+          .map(
+            (variant) => `
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            ${sizes
+              .map(
+                (size) =>
+                  `<{{ spec.selector }} variant="${variant}" size="${size}">${variant} / ${size}</{{ spec.selector }}>`,
+              )
+              .join('')}
+          </div>`,
+          )
+          .join('')}
+      </div>
+    `,
+  }),
+};
+{% endif %}
+{% endif %}

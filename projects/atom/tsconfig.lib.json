@@ -11,9 +11,9 @@
   "include": [
     "src/**/*.ts",
     "button/**/*.ts",
-    "input/**/*.ts"
+    "input/**/*.ts",
+    "label/**/*.ts",
+    "date-picker/**/*.ts"
   ],
-  "exclude": [
-    "**/*.spec.ts"
-  ]
+  "exclude": ["**/*.spec.ts"]
 }

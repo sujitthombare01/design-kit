@@ -30,7 +30,12 @@
             "tsConfig": "projects/atom/tsconfig.spec.json",
             "runner": "vitest",
             "browsers": ["ChromiumHeadless"],
-            "include": ["../button/**/*.spec.ts", "../input/**/*.spec.ts"],
+            "include": [
+              "../button/**/*.spec.ts",
+              "../input/**/*.spec.ts",
+              "../label/**/*.spec.ts",
+              "../date-picker/**/*.spec.ts"
+            ],
             "watch": false,
             "coverageReporters": ["text", "html", "lcov"],
             "coverageThresholds": {

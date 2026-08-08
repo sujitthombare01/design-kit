@@ -1,0 +1,32 @@
+{% if spec.variants -%}
+export type {{ spec.class_name }}Variant =
+{%- for v in spec.variants %}
+  | '{{ v }}'
+{%- endfor %};
+
+{% endif -%}
+{% if spec.sizes -%}
+export type {{ spec.class_name }}Size =
+{%- for s in spec.sizes %}
+  | '{{ s }}'
+{%- endfor %};
+
+{% endif -%}
+export interface {{ spec.class_name }}Props {
+{%- if spec.for_attribute %}
+  readonly for: string;
+{%- endif %}
+{%- if spec.variants %}
+  readonly variant: {{ spec.class_name }}Variant;
+{%- endif %}
+{%- if spec.sizes %}
+  readonly size: {{ spec.class_name }}Size;
+{%- endif %}
+  readonly disabled: boolean;
+{%- if spec.required_indicator %}
+  readonly required: boolean;
+{%- endif %}
+{%- for flag in spec.flags %}
+  readonly {{ flag.camel }}: boolean;
+{%- endfor %}
+}

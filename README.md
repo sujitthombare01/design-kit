@@ -1,6 +1,6 @@
 # design-kit
 
-An Angular component library providing foundational Atoms (Button, Input) and a shared CSS design-token layer, built with standalone components, `OnPush` change detection, and strict TypeScript.
+An Angular component library providing foundational Atoms (Button, Input, Label, Date Picker) and a shared CSS design-token layer, built with standalone components, `OnPush` change detection, and strict TypeScript.
 
 ## Packages
 
@@ -8,6 +8,8 @@ An Angular component library providing foundational Atoms (Button, Input) and a 
 |---|---|---|
 | Atoms | [`@design-kit/atom/button`](projects/atom/button/README.md) | Foundational button component |
 | Atoms | [`@design-kit/atom/input`](projects/atom/input/README.md) | Foundational text-input component with full Forms integration |
+| Atoms | [`@design-kit/atom/label`](projects/atom/label/README.md) | Standalone form-field caption text |
+| Atoms | [`@design-kit/atom/date-picker`](projects/atom/date-picker/README.md) | Native date/date-time input with full Forms integration |
 | Tokens | [`@design-kit/ux/css-variable`](projects/ux/css-variable/README.md) | Every design token in the system, as CSS custom properties |
 
 See [`projects/atom/README.md`](projects/atom/README.md) and [`projects/ux/README.md`](projects/ux/README.md) for the level-package overviews.
